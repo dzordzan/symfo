@@ -1,30 +1,26 @@
 <?php
 
-namespace Jkanclerz\Application\Controller;
+namespace APiszczek\DemoBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Forms;
 
-use Jkanclerz\Application\Geocode\Geocode;
-use Jkanclerz\Application\Repository\FeedRepository;
-use Jkanclerz\Application\Repository\Feed;
-use Jkanclerz\Application\Repository\Uploader;
+use APiszczek\DemoBundle\Component\Repository\FeedRepository;
+use APiszczek\DemoBundle\Component\Repository\Geocode;
+use APiszczek\DemoBundle\Component\Repository\Feed;
+use APiszczek\DemoBundle\Component\Repository\Uploader;
+
 use Symfony\Component\Filesystem\Filesystem;
 
-
-use Silex\Provider\FormServiceProvider;
-
-class OverviewController
+class OverviewController extends Controller
 {
-	protected $twig;
 	protected $feedsArray;
 	protected $feedRepository;
 	protected $feeds = array();
 	
-	public function __construct($twig)
+	public function __construct()
 	{
-		$this->twig = $twig;
 		$this->feedRepository = new FeedRepository();
 
 		$this->feedsArray = $this->feedRepository->getFeeds();
@@ -39,7 +35,7 @@ class OverviewController
 	public function indexAction(Request $request)
 	{
 		return new Response(
-			$this->twig->render(
+			$this->render(
 				'overview.html.twig',
 				array(
 					'feeds' => $this->feedsArray,
@@ -52,7 +48,7 @@ class OverviewController
 	{
 
 			return new Response(
-				$this->twig->render(
+				$this->render(
 					'about.html.twig',
 					array(
 						'name' => 'Andrzejek',
@@ -95,14 +91,14 @@ class OverviewController
 		        
 		        $this->feedRepository->addFeed($feed);
 			
-		       return $this->twig->render('upload.html.twig', array('added' => '1', 'form' => $form->createView()));
+		       return $this->render('upload.html.twig', array('added' => '1', 'form' => $form->createView()));
 			//'AIzaSyBeV_C4VB8-UkTC4NUL-sftXSyZw0HMvLw'
 		    }
 		}
 
 	
 	    // display the form
-	      return $this->twig->render('upload.html.twig', array('form' => $form->createView()));
+	      return $this->render('upload.html.twig', array('form' => $form->createView()));
 	}
 	public function feedRemove(Request $request)
 	{
