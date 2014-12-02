@@ -1,0 +1,8 @@
+a_piszczek_demo:
+    pattern:  /
+    defaults: { _controller: APiszczekDemoBundle:Default:index  }
+
+a_piszczek_demo_homepage:
+
+    path:     /hello/{name}
+    defaults: { _controller: APiszczekDemoBundle:Default:index }

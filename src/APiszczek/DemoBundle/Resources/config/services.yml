@@ -1,0 +1,4 @@
+services:
+#    a_piszczek_demo.example:
+#        class: APiszczek\DemoBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

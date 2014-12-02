@@ -1,0 +1,5 @@
+a_piszczek_demo:
+    pattern:  /
+    resource: "@APiszczekDemoBundle/Resources/config/routing.yml"
+    prefix:   /
+
