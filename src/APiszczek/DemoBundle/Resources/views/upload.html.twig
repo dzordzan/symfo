@@ -1,0 +1,116 @@
+{% extends "layout.html.twig" %}
+
+
+{% block title %}Wstaw zdjęcie{% endblock %}
+{% block pageHeader %}
+	Wstaw zdjęcie
+	<small></small>
+{% endblock %}
+{% block content %}
+{% if added|default %}
+<div class="alert alert-success">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <strong>Powodzenie!</strong> Pomyślnie wgrałeś zdjęcie. Sprawdz je na stronie głównej!.
+</div>
+{% endif %}
+{% block stylesheets %} 
+  {{ parent() }}
+  <link href="{{ app.request.basepath }}/css/fileinput.css" rel="stylesheet">
+{% endblock %}
+{% block javascripts %} 
+{{ parent() }}
+<script src="{{ app.request.basepath }}/js/fileinput.min.js"></script>
+<script type="text/javascript">
+
+  $( "#button2id" ).click(function() {
+  	$('#preview').css( "background", "url("+document.getElementById('form_urlAddress').value+") no-repeat center center");
+  	$('#preview').css( "background-size", "100%");
+})
+
+    $("#form_imageUpload").fileinput({
+      showUpload: false,
+      showCaption: false,
+      maxFileCount: 1,
+      browseClass: "btn btn-primary btn-lg",
+      allowedFileTypes: ["image"],
+      fileType: "image"
+    });
+     $("#form_imageUpload").on('fileloaded', function(event) {
+      $('#form_urlAddress').attr('disabled','disabled');
+    });
+    $("#form_imageUpload").on('fileclear', function(event) {
+      $('#form_urlAddress').removeAttr('disabled');
+    });
+    $( document ).ready(function() {
+      if(navigator.geolocation)
+              navigator.geolocation.getCurrentPosition(handleGetCurrentPosition);
+    }); 
+    function handleGetCurrentPosition(location){
+  
+    $('input[name*=latitude]').val(location.coords.latitude);
+    $('input[name*=longitude]').val(location.coords.longitude);
+
+}
+  </script>
+{% endblock %}
+<div class="container auth">
+
+    <div id="big-form" class="well auth-box">
+      <form action="#" method="post"  {{ form_enctype(form) }}>
+        <fieldset>
+ {{ form_start(form) }}
+
+ 	<div class="row col-md-7"> 
+	 <div class="form-group col-md-10">
+	 		{{ form_label(form.urlAddress, null, {'label_attr': {'class': 'control-label'}}) }}
+            {{ form_widget(form.urlAddress, {'attr': {'class': 'form-control input-md'}}) }}
+            
+      </div>
+      
+    <!-- <div class="col-md-2" style="margin-top: 24px;margin-left:-18px;">
+     	<button id="button2id" name="button2id" class="form-group btn btn-danger" type='button' >Pokaż -></button>
+ 	</div>-->
+ 
+    	
+   
+     
+    <div class="form-group col-md-12">
+	 		{{ form_label(form.tags, null, {'label_attr': {'class': 'control-label'}}) }}
+            {{ form_widget(form.tags, {'attr': {'class': 'form-control input-md'}}) }}
+     </div>
+  
+    <div class="form-group  col-md-12">
+	 		{{ form_label(form.description, null, {'label_attr': {'class': 'control-label'}}) }}
+			{{ form_widget(form.description, {'attr': {'class': 'form-control input-md'}}) }}
+              
+    </div> 
+
+    </div>
+
+    <div id="preview" class="form-group col-md-5">
+      <div class="form-group">
+         {{ form_label(form.imageUpload, null, {'label_attr': {'class': 'control-label'}}) }}<br/>
+         {{ form_widget(form.imageUpload) }}
+       </div>
+  	</div>
+   
+	<div class="form-group form-group col-md-7">
+
+            <label class=" control-label" for="button1id">Potwierdz</label>
+            <div class="">
+              <button type="submit" id="button1id" name="button1id" class="btn btn-success">Dodaj nowe zdjęcie</button>
+            </div>
+          </div>
+{{ form_end(form) }}
+
+
+
+
+
+
+    </div>
+    <div class="clearfix"></div>
+  </div>
+
+
+{% endblock %}

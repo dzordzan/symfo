@@ -1,6 +1,6 @@
 a_piszczek_demo_index:
     pattern:  /
-    defaults: { _controller: APiszczekDemoBundle:Overview:index }  }
+    defaults: { _controller: APiszczekDemoBundle:Overview:index }  
 
 a_piszczek_demo_homepage:
 

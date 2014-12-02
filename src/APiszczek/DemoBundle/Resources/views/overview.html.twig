@@ -1,0 +1,97 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Strona Głowna{% endblock %}
+{% block pageHeader %}
+	Strona główna
+	<small></small>
+{% endblock %}
+
+{% block content %}
+
+	{% for picture in feeds %}
+		<div class="row" id="{{ loop.index }}" style="position: relative;">
+            <div class="col-md-3">
+                <a href="#">
+                    <img class="img-responsive" src="{{picture.picture}}" alt="">
+                </a>
+            </div>
+            <div class="col-md-7">
+                <h3>Projekt {{ loop.index }}</h3>
+              
+                <p>{{ picture.about }}</p>
+                <h4>Tagi:</h4>
+                {% for tag in picture.tags %}
+               	 	<a class="btn btn-primary" style="padding: 0 0;">#{{ tag }} <span class="glyphicon"></span></a>
+                {% endfor %}
+            </div>
+            <div class="col-md-2" style="text-align:right;" >
+                <!---<div><button class="glyphicon glyphicon-cog  btn" style="display:none;font-size:20px;padding:0px 5px;" aria-hidden="true"></button></div>-->
+                <div><button onclick="feedRemove('{{picture.picture}}', {{ loop.index }})" class="glyphicon glyphicon-remove  btn btn-danger" style="font-size:10px;padding:0px 2px;display:none;" aria-hidden="true"></button></div>
+            </div>
+            <div style="position:absolute; bottom: 5px; right: 5px"> {% if picture.location|default  %} <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> {{picture.location}} {% endif %}</div>
+                
+            </div>
+      
+		<hr>
+
+	{% endfor %}
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">Podaj hasło:</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="form-group">
+            <input type="text" class="form-control" id="message-text"/>
+          </div>
+        </form>
+      </div>
+      <div  class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-default">Anuluj</button>
+        <button type="button" onclick="removeF();" class="btn btn-default">Potwierdź</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% block javascripts %} 
+{{ parent() }}
+
+    <script type="text/javascript">
+        var gfeedPicture, gfeedId;
+        function feedRemove(feedPicture, feedId)
+        {   
+            gfeedPicture = feedPicture;
+            gfeedId= feedId;
+            $("#exampleModal").modal();/*
+            */
+        }
+        function removeF(){
+
+            if ($('#message-text').val()=='maslo'){
+                $("#exampleModal").modal('hide');
+                $.post( "index.php/feed/remove", { picture: gfeedPicture } ).done(function(data) 
+                {
+
+                    if (data == 1){
+                        $('#'+gfeedId+', #'+gfeedId+' + hr').fadeOut("slow");
+                    }
+                  
+                });
+        } else
+           { alert('Błędne hasło');}
+
+        }
+        
+        $('.row').hover(
+              function() {
+                $('button', this ).show();
+              }, function() {
+                $('button', this ).hide();
+              });
+    </script>
+{% endblock %}
+{% endblock %}
