@@ -4,7 +4,14 @@ thread:
 
 thread_show:
     path:     /{id}/show
-    defaults: { _controller: "APiszczekDemoBundle:Thread:show" }
+    defaults: 
+        _controller: "APiszczekDemoBundle:Thread:show" 
+    requirements: 
+        id: \d+ 
+
+thread_show_by_slug:
+    path:     /{slug}/show
+    defaults: { _controller: "APiszczekDemoBundle:Thread:showBySlug" }
 
 thread_new:
     path:     /new

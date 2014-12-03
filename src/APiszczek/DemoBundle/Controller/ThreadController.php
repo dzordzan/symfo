@@ -109,6 +109,23 @@ class ThreadController extends Controller
         ));
     }
 
+    public function showBySlugAction($slug)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('APiszczekDemoBundle:Thread')->findOneBySlug($slug);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Thread entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($slug);
+
+        return $this->render('APiszczekDemoBundle:Thread:show.html.twig', array(
+            'entity'      => $entity,
+            'delete_form' => $deleteForm->createView(),
+        ));
+    } 
     /**
      * Displays a form to edit an existing Thread entity.
      *
