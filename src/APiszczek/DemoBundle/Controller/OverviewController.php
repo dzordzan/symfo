@@ -51,7 +51,7 @@ class OverviewController extends Controller
 
 			return new Response(
 				$this->render(
-					'about.html.twig',
+					'APiszczekDemoBundle:Overview:about.html.twig',
 					array(
 						'name' => 'Andrzejek',
 						'surname' => 'Piszczek',
@@ -93,16 +93,16 @@ class OverviewController extends Controller
 		        
 		        $this->feedRepository->addFeed($feed);
 			
-		       return $this->render('APiszczekDemoBundle:Overview::upload.html.twig', array('added' => '1', 'form' => $form->createView()));
+		       return $this->render('APiszczekDemoBundle:Overview:upload.html.twig', array('added' => '1', 'form' => $form->createView()));
 			//'AIzaSyBeV_C4VB8-UkTC4NUL-sftXSyZw0HMvLw'
 		    }
 		}
 
 	
 	    // display the form
-	      return $this->render('APiszczekDemoBundle:Overview::upload.html.twig', array('form' => $form->createView()));
+	      return $this->render('APiszczekDemoBundle:Overview:upload.html.twig', array('form' => $form->createView()));
 	}
-	public function feedRemove(Request $request)
+	public function feedRemoveAction(Request $request)
 	{
 
 		$this->feedRepository->feedRemove($request->get('picture'));

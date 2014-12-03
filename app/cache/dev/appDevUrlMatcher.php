@@ -128,7 +128,7 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 return $this->redirect($pathinfo.'/', 'a_piszczek_demo_index');
             }
 
-            return array (  '_controller' => 'APiszczek\\DemoBundle\\Controller\\OverviewController::indexAction',  '_route' => 'a_piszczek_demo_index',);
+            return array (  '_controller' => 'APiszczek\\DemoBundle\\Controller\\OverviewController::feedRemoveAction',  '_route' => 'a_piszczek_demo_index',);
         }
 
         // a_piszczek_demo_about
@@ -136,9 +136,14 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return array (  '_controller' => 'APiszczek\\DemoBundle\\Controller\\OverviewController::aboutAction',  '_route' => 'a_piszczek_demo_about',);
         }
 
-        // a_piszczek_demo_homepage
-        if (0 === strpos($pathinfo, '/hello') && preg_match('#^/hello/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
-            return $this->mergeDefaults(array_replace($matches, array('_route' => 'a_piszczek_demo_homepage')), array (  '_controller' => 'APiszczek\\DemoBundle\\Controller\\DefaultController::indexAction',));
+        // a_piszczek_demo_upload
+        if ($pathinfo === '/upload') {
+            return array (  '_controller' => 'APiszczek\\DemoBundle\\Controller\\OverviewController::uploadAction',  '_route' => 'a_piszczek_demo_upload',);
+        }
+
+        // a_piszczek_demo_feedRemove
+        if ($pathinfo === '/feed/remove') {
+            return array (  '_controller' => 'APiszczek\\DemoBundle\\Controller\\OverviewController::feedRemoveAction',  '_route' => 'a_piszczek_demo_feedRemove',);
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();

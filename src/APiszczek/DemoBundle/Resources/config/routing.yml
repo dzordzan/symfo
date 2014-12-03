@@ -6,7 +6,11 @@ a_piszczek_demo_about:
     pattern:  /about
     defaults: { _controller: APiszczekDemoBundle:Overview:about }  
 
-a_piszczek_demo_homepage:
+a_piszczek_demo_upload:
+    pattern:  /upload
+    defaults: { _controller: APiszczekDemoBundle:Overview:upload }  
 
-    path:     /hello/{name}
-    defaults: { _controller: APiszczekDemoBundle:Default:index }
+a_piszczek_demo_feedRemove:
+    pattern:  /feed/remove
+    defaults: { _controller: APiszczekDemoBundle:Overview:feedRemove }  
+
