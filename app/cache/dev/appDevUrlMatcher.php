@@ -128,7 +128,7 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 return $this->redirect($pathinfo.'/', 'a_piszczek_demo_index');
             }
 
-            return array (  '_controller' => 'APiszczek\\DemoBundle\\Controller\\OverviewController::feedRemoveAction',  '_route' => 'a_piszczek_demo_index',);
+            return array (  '_controller' => 'APiszczek\\DemoBundle\\Controller\\OverviewController::indexAction',  '_route' => 'a_piszczek_demo_index',);
         }
 
         // a_piszczek_demo_about

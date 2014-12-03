@@ -42,7 +42,7 @@ class OverviewController extends Controller
 				array(
 					'feeds' => $this->feedsArray,
 				)
-			)
+			)->getContent()
 		);
 
 	}
@@ -60,7 +60,7 @@ class OverviewController extends Controller
 						'picture' => 'https://fbcdn-sphotos-b-a.akamaihd.net/hphotos-ak-xpa1/v/t1.0-9/10612771_917202591631123_2697497729714946662_n.jpg?oh=a731edabfeb9d4d50d3db7604b5a46ff&oe=551F2813&__gda__=1427065771_16e52070df7f465932fa18cc2e1f668a',
 
 					)
-				)
+				)->getContent()
 			);
 	}
 	public function uploadAction(Request $request)

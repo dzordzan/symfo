@@ -2,4 +2,4 @@ _assetic:
     resource: .
     type: assetic
 _app:
-    resource: 'D:/Programowanie/PP5/symfo/app/config/routing_dev.yml'
+    resource: /home/studenci/r12/s174644/public_html/app/config/routing_dev.yml
