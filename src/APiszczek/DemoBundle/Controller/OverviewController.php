@@ -8,10 +8,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Filesystem\Filesystem;
 
-use APiszczek\DemoBundle\Component\Repository\FeedRepository;
-use APiszczek\DemoBundle\Component\Repository\Geocode;
-use APiszczek\DemoBundle\Component\Repository\Feed;
-use APiszczek\DemoBundle\Component\Repository\Uploader;
+use APiszczek\DemoBundle\Component\FeedRepository;
+use APiszczek\DemoBundle\Component\Geocode;
+use APiszczek\DemoBundle\Component\Feed;
+use APiszczek\DemoBundle\Component\Uploader
 
 
 
