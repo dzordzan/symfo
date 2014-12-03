@@ -11,7 +11,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use APiszczek\DemoBundle\Component\FeedRepository;
 use APiszczek\DemoBundle\Component\Geocode;
 use APiszczek\DemoBundle\Component\Feed;
-use APiszczek\DemoBundle\Component\Uploader
+use APiszczek\DemoBundle\Component\Uploader;
 
 
 
@@ -38,7 +38,7 @@ class OverviewController extends Controller
 	{
 		return new Response(
 			$this->render(
-				'overview.html.twig',
+				'APiszczekDemoBundle:Overview:overview.html.twig',
 				array(
 					'feeds' => $this->feedsArray,
 				)
@@ -93,14 +93,14 @@ class OverviewController extends Controller
 		        
 		        $this->feedRepository->addFeed($feed);
 			
-		       return $this->render('upload.html.twig', array('added' => '1', 'form' => $form->createView()));
+		       return $this->render('APiszczekDemoBundle:Overview::upload.html.twig', array('added' => '1', 'form' => $form->createView()));
 			//'AIzaSyBeV_C4VB8-UkTC4NUL-sftXSyZw0HMvLw'
 		    }
 		}
 
 	
 	    // display the form
-	      return $this->render('upload.html.twig', array('form' => $form->createView()));
+	      return $this->render('APiszczekDemoBundle:Overview::upload.html.twig', array('form' => $form->createView()));
 	}
 	public function feedRemove(Request $request)
 	{

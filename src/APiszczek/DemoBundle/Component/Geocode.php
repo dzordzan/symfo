@@ -1,6 +1,6 @@
 <?php
 
-namespace Jkanclerz\Application\Geocode;
+namespace APiszczek\DemoBundle\Component;
 
 class Geocode {
 

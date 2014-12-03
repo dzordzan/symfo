@@ -1,8 +1,7 @@
 <?php
 
-namespace Jkanclerz\Application\Repository;
+namespace APiszczek\DemoBundle\Component;
 
-use Jkanclerz\Application\Repository\FeedRepository;
 
 class Feed
 {

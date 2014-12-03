@@ -1,6 +1,6 @@
 <?php
 
-namespace Jkanclerz\Application\Repository;
+namespace APiszczek\DemoBundle\Component;
 
 class FeedRepository
 {
@@ -8,7 +8,7 @@ class FeedRepository
 
 	public function __construct()
 	{
-		$this->feeds = json_decode(file_get_contents( APP.'/resources/feed.json'), true);
+		$this->feeds = json_decode(file_get_contents( APP.'/cache/feed.json'), true);
 	}
 
 	public function getFeeds(){
@@ -30,6 +30,6 @@ class FeedRepository
 	}
 	public function updateFile()
 	{
-		file_put_contents(APP.'/resources/feed.json',json_encode($this->feeds, JSON_PRETTY_PRINT));
+		file_put_contents(APP.'/cache/feed.json',json_encode($this->feeds, JSON_PRETTY_PRINT));
 	}
 }

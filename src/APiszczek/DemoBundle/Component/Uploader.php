@@ -1,6 +1,6 @@
 <?php
 
-namespace Jkanclerz\Application\Repository;
+namespace APiszczek\DemoBundle\Component;
 
 
 class Uploader {

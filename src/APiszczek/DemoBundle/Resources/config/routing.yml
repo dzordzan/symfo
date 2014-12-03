@@ -2,6 +2,10 @@ a_piszczek_demo_index:
     pattern:  /
     defaults: { _controller: APiszczekDemoBundle:Overview:index }  
 
+a_piszczek_demo_about:
+    pattern:  /about
+    defaults: { _controller: APiszczekDemoBundle:Overview:about }  
+
 a_piszczek_demo_homepage:
 
     path:     /hello/{name}
