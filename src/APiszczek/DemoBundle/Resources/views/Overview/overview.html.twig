@@ -73,7 +73,7 @@
 
             if ($('#message-text').val()=='maslo'){
                 $("#exampleModal").modal('hide');
-                $.post( "index.php/feed/remove", { picture: gfeedPicture } ).done(function(data) 
+                $.post( "feed/remove", { picture: gfeedPicture } ).done(function(data) 
                 {
 
                     if (data == 1){
