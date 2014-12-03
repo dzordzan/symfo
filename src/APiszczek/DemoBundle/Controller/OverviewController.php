@@ -106,6 +106,7 @@ class OverviewController extends Controller
 	{
 
 		$this->feedRepository->feedRemove($request->get('picture'));
-		return '1';
+		die('1');
+		
 	}
 }
