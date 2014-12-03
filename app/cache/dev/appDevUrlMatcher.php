@@ -122,6 +122,66 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
+        if (0 === strpos($pathinfo, '/thread')) {
+            // thread
+            if (rtrim($pathinfo, '/') === '/thread') {
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'thread');
+                }
+
+                return array (  '_controller' => 'APiszczek\\DemoBundle\\Controller\\ThreadController::indexAction',  '_route' => 'thread',);
+            }
+
+            // thread_show
+            if (preg_match('#^/thread/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'thread_show')), array (  '_controller' => 'APiszczek\\DemoBundle\\Controller\\ThreadController::showAction',));
+            }
+
+            // thread_new
+            if ($pathinfo === '/thread/new') {
+                return array (  '_controller' => 'APiszczek\\DemoBundle\\Controller\\ThreadController::newAction',  '_route' => 'thread_new',);
+            }
+
+            // thread_create
+            if ($pathinfo === '/thread/create') {
+                if ($this->context->getMethod() != 'POST') {
+                    $allow[] = 'POST';
+                    goto not_thread_create;
+                }
+
+                return array (  '_controller' => 'APiszczek\\DemoBundle\\Controller\\ThreadController::createAction',  '_route' => 'thread_create',);
+            }
+            not_thread_create:
+
+            // thread_edit
+            if (preg_match('#^/thread/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'thread_edit')), array (  '_controller' => 'APiszczek\\DemoBundle\\Controller\\ThreadController::editAction',));
+            }
+
+            // thread_update
+            if (preg_match('#^/thread/(?P<id>[^/]++)/update$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('POST', 'PUT'))) {
+                    $allow = array_merge($allow, array('POST', 'PUT'));
+                    goto not_thread_update;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'thread_update')), array (  '_controller' => 'APiszczek\\DemoBundle\\Controller\\ThreadController::updateAction',));
+            }
+            not_thread_update:
+
+            // thread_delete
+            if (preg_match('#^/thread/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('POST', 'DELETE'))) {
+                    $allow = array_merge($allow, array('POST', 'DELETE'));
+                    goto not_thread_delete;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'thread_delete')), array (  '_controller' => 'APiszczek\\DemoBundle\\Controller\\ThreadController::deleteAction',));
+            }
+            not_thread_delete:
+
+        }
+
         // a_piszczek_demo_index
         if (rtrim($pathinfo, '/') === '') {
             if (substr($pathinfo, -1) !== '/') {

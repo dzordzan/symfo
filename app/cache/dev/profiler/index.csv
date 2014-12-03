@@ -49,3 +49,9 @@ fd6fd9,149.156.208.47,GET,http://v-ie.uek.krakow.pl/~s174644/app_dev.php/,141759
 fdac48,149.156.208.47,GET,http://v-ie.uek.krakow.pl/~s174644/app_dev.php/upload,1417591681,
 8df9f0,149.156.208.47,GET,http://v-ie.uek.krakow.pl/~s174644/app_dev.php/about,1417591683,
 8922cd,149.156.208.47,GET,http://v-ie.uek.krakow.pl/~s174644/app_dev.php/,1417591685,
+bf8913,149.156.208.47,GET,http://v-ie.uek.krakow.pl/~s174644/app_dev.php/thread/,1417592732,de9437
+de9437,149.156.208.47,GET,http://v-ie.uek.krakow.pl/~s174644/app_dev.php/thread/,1417592732,
+501658,149.156.208.47,GET,http://v-ie.uek.krakow.pl/~s174644/app_dev.php/thread/,1417592921,
+a42bd0,149.156.208.47,GET,http://v-ie.uek.krakow.pl/~s174644/app_dev.php/thread/new,1417592923,
+9b7bd4,149.156.208.47,POST,http://v-ie.uek.krakow.pl/~s174644/app_dev.php/thread/create,1417592926,
+a96a47,149.156.208.47,GET,http://v-ie.uek.krakow.pl/~s174644/app_dev.php/thread/1/show,1417592927,

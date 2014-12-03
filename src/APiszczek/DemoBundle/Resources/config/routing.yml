@@ -1,3 +1,7 @@
+a_piszczek_demo_thread:
+    resource: "@APiszczekDemoBundle/Resources/config/routing/thread.yml"
+    prefix:   /thread
+
 a_piszczek_demo_index:
     pattern:  /
     defaults: { _controller: APiszczekDemoBundle:Overview:index }  
