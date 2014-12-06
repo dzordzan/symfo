@@ -1,1 +1,1 @@
-php -S localhost:8000 -t .
+php app/console server:run

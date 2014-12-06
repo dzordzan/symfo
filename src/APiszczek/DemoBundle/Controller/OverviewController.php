@@ -100,7 +100,7 @@ class OverviewController extends Controller
 				if ($files['imageUpload']){
 					$file = new Uploader(new Filesystem());
 	
-					$data['urlAddress'] =  'http://'.$request->server->get('HTTP_HOST').'/web/img/'.$file->saveFile($files['imageUpload']);
+					$data['urlAddress'] =  'http://'.$request->server->get('HTTP_HOST').'/img/'.$file->saveFile($files['imageUpload']);
 				}
  				$location = new Geocode($data['latitude'], $data['longitude']);
  				$feed = new Feed(array('picture'=>$data['urlAddress'] ,'about'=>$data['description'], 'location'=>$location->getLocation(),'tags'=>explode(",", $data['tags'])));
