@@ -110,8 +110,6 @@ class OverviewController extends Controller
 		       return $this->render('APiszczekDemoBundle:Overview:upload.html.twig', array('added' => '1', 'form' => $form->createView()));
 		    }
 		} 
-
-
 	      return $this->render('APiszczekDemoBundle:Overview:upload.html.twig', 
 	      			array('form' => $form->createView()));
 	}
