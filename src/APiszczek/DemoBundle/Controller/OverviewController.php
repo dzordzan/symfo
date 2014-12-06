@@ -8,10 +8,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Filesystem\Filesystem;
 
-use APiszczek\DemoBundle\Component\FeedRepository;
-use APiszczek\DemoBundle\Component\Geocode;
-use APiszczek\DemoBundle\Component\Feed;
-use APiszczek\DemoBundle\Component\Uploader;
+use APiszczek\DemoBundle\Component\Geocode\Geocode;
+use APiszczek\DemoBundle\Component\Feed\FeedRepository;
+use APiszczek\DemoBundle\Component\Feed\Feed;
+use APiszczek\DemoBundle\Component\Feed\Uploader;
 
 
 
@@ -68,10 +68,23 @@ class OverviewController extends Controller
 	$formFactory = Forms::createFormFactory();
 
 	    $form = $formFactory->createBuilder('form')
-	        ->add('urlAddress', 'url', array( 'attr' => array('placeholder' => 'http://example.com/img.jpg/'), 'label' => 'Podaj adres do zdjęcia lub wstaw grafikę obok: '))
-	        ->add('tags', 'text', array('attr' => array('placeholder' => 'yolo, nowe, seks, itp'), 'label' => 'Podaj tagi: '))
-	        ->add('description', 'textarea', array('attr' => array('placeholder' => 'Opis zdjęcia'),'label' => 'Podaj opis: '))
-	        ->add('imageUpload', 'file', array('attr' => array('required' => false, 'multiple' => false, 'accept'	=> 'image/jpeg,image/gif,image/png'),'required' => false, 'label' => 'Wstaw zdjęcie z komputera: '))
+	        ->add('urlAddress', 'url', array( 
+	        	'attr' => array(
+	        		'placeholder' => 'http://example.com/img.jpg/'), 
+	        		'label' => 'Podaj adres do zdjęcia lub wstaw grafikę obok: '))
+	        ->add('tags', 'text', array(
+	        	'attr' => array(
+	        		'placeholder' => 'yolo, nowe, itp'), 
+	        		'label' => 'Podaj tagi: '))
+	        ->add('description', 'textarea', array(
+	        	'attr' => array(
+	        		'placeholder' => 'Opis zdjęcia'),
+	        		'label' => 'Podaj opis: '))
+	        ->add('imageUpload', 'file', array(
+	        	'attr' => array('required' => false, 
+	        	'multiple' => false, 'accept'	=> 'image/jpeg,image/gif,image/png'),
+	        	'required' => false, 
+	        	'label' => 'Wstaw zdjęcie z komputera: '))
 	        ->add('latitude', 'hidden')
 			->add('longitude', 'hidden')
 	        ->getForm();
@@ -86,7 +99,12 @@ class OverviewController extends Controller
 		        $files = $request->files->get($form->getName());
 				if ($files['imageUpload']){
 					$file = new Uploader(new Filesystem());
-					$data['urlAddress'] =  'http://'.$_SERVER['HTTP_HOST'].$_SERVER['CONTEXT_PREFIX'].'/img/'.$file->saveFile($files['imageUpload']);
+					/*echo '<pre>';
+						\Doctrine\Common\Util\Debug::dump($request, 20);
+					echo '</pre>';
+					//exit(\Doctrine\Common\Util\Debug::dump($request));*/
+					//die($request->server->get('HTTP_HOST'));	
+					$data['urlAddress'] =  'http://'.$request->server->get('HTTP_HOST').'/web/img/'.$file->saveFile($files['imageUpload']);
 				}
  				$location = new Geocode($data['latitude'], $data['longitude']);
  				$feed = new Feed(array('picture'=>$data['urlAddress'] ,'about'=>$data['description'], 'location'=>$location->getLocation(),'tags'=>explode(",", $data['tags'])));
