@@ -99,11 +99,7 @@ class OverviewController extends Controller
 		        $files = $request->files->get($form->getName());
 				if ($files['imageUpload']){
 					$file = new Uploader(new Filesystem());
-					/*echo '<pre>';
-						\Doctrine\Common\Util\Debug::dump($request, 20);
-					echo '</pre>';
-					//exit(\Doctrine\Common\Util\Debug::dump($request));*/
-					//die($request->server->get('HTTP_HOST'));	
+	
 					$data['urlAddress'] =  'http://'.$request->server->get('HTTP_HOST').'/web/img/'.$file->saveFile($files['imageUpload']);
 				}
  				$location = new Geocode($data['latitude'], $data['longitude']);
@@ -112,13 +108,12 @@ class OverviewController extends Controller
 		        $this->feedRepository->addFeed($feed);
 			
 		       return $this->render('APiszczekDemoBundle:Overview:upload.html.twig', array('added' => '1', 'form' => $form->createView()));
-			//'AIzaSyBeV_C4VB8-UkTC4NUL-sftXSyZw0HMvLw'
 		    }
 		} 
 
-	
-	    // display the form
-	      return $this->render('APiszczekDemoBundle:Overview:upload.html.twig', array('form' => $form->createView()));
+
+	      return $this->render('APiszczekDemoBundle:Overview:upload.html.twig', 
+	      			array('form' => $form->createView()));
 	}
 	public function feedRemoveAction(Request $request)
 	{
