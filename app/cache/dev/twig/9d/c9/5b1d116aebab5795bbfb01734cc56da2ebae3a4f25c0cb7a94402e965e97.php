@@ -7,7 +7,7 @@ class __TwigTemplate_9dc95b1d116aebab5795bbfb01734cc56da2ebae3a4f25c0cb7a94402e9
     {
         parent::__construct($env);
 
-        $this->parent = $this->env->loadTemplate("APiszczekDemoBundle:Overview:layout.html.twig");
+        $this->parent = $this->env->loadTemplate("APiszczekDemoBundle:Layout:layout.html.twig");
 
         $this->blocks = array(
             'title' => array($this, 'block_title'),
@@ -18,7 +18,7 @@ class __TwigTemplate_9dc95b1d116aebab5795bbfb01734cc56da2ebae3a4f25c0cb7a94402e9
 
     protected function doGetParent(array $context)
     {
-        return "APiszczekDemoBundle:Overview:layout.html.twig";
+        return "APiszczekDemoBundle:Layout:layout.html.twig";
     }
 
     protected function doDisplay(array $context, array $blocks = array())

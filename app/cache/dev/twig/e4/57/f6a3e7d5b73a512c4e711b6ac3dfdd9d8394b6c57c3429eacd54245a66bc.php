@@ -7,7 +7,7 @@ class __TwigTemplate_e457f6a3e7d5b73a512c4e711b6ac3dfdd9d8394b6c57c3429eacd54245
     {
         parent::__construct($env);
 
-        $this->parent = $this->env->loadTemplate("APiszczekDemoBundle:Overview:layout.html.twig");
+        $this->parent = $this->env->loadTemplate("APiszczekDemoBundle:Layout:layout.html.twig");
 
         $this->blocks = array(
             'title' => array($this, 'block_title'),
@@ -19,7 +19,7 @@ class __TwigTemplate_e457f6a3e7d5b73a512c4e711b6ac3dfdd9d8394b6c57c3429eacd54245
 
     protected function doGetParent(array $context)
     {
-        return "APiszczekDemoBundle:Overview:layout.html.twig";
+        return "APiszczekDemoBundle:Layout:layout.html.twig";
     }
 
     protected function doDisplay(array $context, array $blocks = array())
@@ -188,7 +188,7 @@ class __TwigTemplate_e457f6a3e7d5b73a512c4e711b6ac3dfdd9d8394b6c57c3429eacd54245
 
             if (\$('#message-text').val()=='maslo'){
                 \$(\"#exampleModal\").modal('hide');
-                \$.post( \"index.php/feed/remove\", { picture: gfeedPicture } ).done(function(data) 
+                \$.post( \"feed/remove\", { picture: gfeedPicture } ).done(function(data) 
                 {
 
                     if (data == 1){

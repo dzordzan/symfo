@@ -29,7 +29,7 @@ class __TwigTemplate_2b6c71b426f0aa0ad0b2c021b17b3dc79e9cfa6321e1407ffb17d8745b0
                 <a class=\"navbar-brand\" href=\"";
         // line 11
         echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request", array()), "basepath", array()), "html", null, true);
-        echo "/\">Strona Główna</a>
+        echo "/app_dev.php/\">Strona Główna</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">
@@ -38,13 +38,13 @@ class __TwigTemplate_2b6c71b426f0aa0ad0b2c021b17b3dc79e9cfa6321e1407ffb17d8745b0
                         <a href=\"";
         // line 17
         echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request", array()), "basepath", array()), "html", null, true);
-        echo "/index.php/upload\">Wstaw zdjęcie</a>
+        echo "/app_dev.php/upload\">Wstaw zdjęcie</a>
                     </li>
                     <li>
                         <a href=\"";
         // line 20
         echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request", array()), "basepath", array()), "html", null, true);
-        echo "/index.php/about\">O mnie</a>
+        echo "/app_dev.php/about\">O mnie</a>
                     </li>
                     <li>
                         <a href=\"#\">Kontakt</a>
