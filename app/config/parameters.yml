@@ -3,7 +3,7 @@
 #127.0.0.1
 parameters:
     database_driver: pdo_mysql
-    database_host: 127.8.127.2
+    database_host: 127.0.0.1
     database_port: 3306
     database_name: symfo
     database_user: admin3aiUlHW

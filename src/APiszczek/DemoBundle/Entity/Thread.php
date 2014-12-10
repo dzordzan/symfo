@@ -31,7 +31,7 @@ class Thread
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="string", length=255)
+     * @ORM\Column(name="content", type="text")
      */
     private $content;
 
@@ -43,10 +43,17 @@ class Thread
     private $slug;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="tags", type="text")
+     */
+    private $tags;
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="createAt", type="datetime")
      */
+
     private $createAt;
 
 
@@ -118,7 +125,6 @@ class Thread
 
         return $this;
     }
-
     /**
      * Get slug
      *
@@ -127,6 +133,27 @@ class Thread
     public function getSlug()
     {
         return $this->slug;
+    }
+    /**
+     * Get tags
+     *
+     * @return string 
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+    /**
+     * Set tags
+     *
+     * @param string $tags
+     * @return Thread
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+
+        return $this;
     }
 
     /**
