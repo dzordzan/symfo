@@ -2,3 +2,8 @@ services:
 #    a_piszczek_demo.example:
 #        class: APiszczek\DemoBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+    a_piszczek_demo.listener:
+        class: APiszczek\DemoBundle\Entity\Feed
+        tags:
+            - { name: doctrine.event_listener, event: postInsert, connection: default  }
+            - { name: doctrine.event_listener, event: preInsert, connection: default  }

@@ -4,6 +4,10 @@ a_piszczek_demo_thread:
 
 a_piszczek_demo_index:
     pattern:  /
+    defaults: { _controller: APiszczekDemoBundle:Feeds:index }  
+
+a_piszczek_demo_gallery:
+    pattern:  /gallery
     defaults: { _controller: APiszczekDemoBundle:Overview:index }  
 
 a_piszczek_demo_about:
@@ -18,3 +22,36 @@ a_piszczek_demo_feedRemove:
     pattern:  /feed/remove
     defaults: { _controller: APiszczekDemoBundle:Overview:feedRemove }  
 
+feeds:
+    path:     /feeds
+    defaults: { _controller: "APiszczekDemoBundle:Feeds:index" }
+
+add:
+    path:     /add
+    defaults: { _controller: APiszczekDemoBundle:Feeds:add }
+
+create:
+    path:     /create
+    defaults: { _controller: "APiszczekDemoBundle:Feeds:create" }
+    requirements: { _method: post }
+search:
+    path:     /search
+    defaults: { _controller: APiszczekDemoBundle:Feeds:search }
+    requirements: { _method: post }
+delete:
+    path:     /{id}/delete
+    defaults: { _controller: APiszczekDemoBundle:Feeds:delete }
+    requirements: { _method: get|delete }
+edit:
+    path:     /{id}/edit
+    defaults: { _controller: APiszczekDemoBundle:Feeds:edit }
+update:
+    path:     /{id}/update
+    defaults: { _controller: APiszczekDemoBundle:Feeds:update }
+    requirements: { _method: post|put }
+show:
+    path:     /{id}/show
+    defaults: { _controller: APiszczekDemoBundle:Feeds:show }
+searchByTag:
+    path:     /{tag}/tag
+    defaults: { _controller: APiszczekDemoBundle:Feeds:searchByTag }

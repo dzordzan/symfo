@@ -1,21 +1,22 @@
 <?php
 
 namespace APiszczek\DemoBundle\Entity;
-
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreFlushEventArgs;
 /**
   * @ORM\Entity
   * @ORM\Table()
+  * @ORM\HasLifecycleCallbacks  
   */
 class Feed
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
+     * @var int|null
+     * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer", name="id")
      */
     protected $id;
 	 /**
@@ -37,25 +38,98 @@ class Feed
      */
 	protected $createdAt;
 	/**
-	*  @ORM\OneToOne(targetEntity="APiszczek\DemoBundle\Entity\Position")
+	*  @ORM\OneToOne(targetEntity="APiszczek\DemoBundle\Entity\Position", cascade={"persist"})
 	*/
-	
 	protected $position;
-	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	/**
-    * @ORM\ManyToMany(targetEntity="APiszczek\DemoBundle\Entity\Locale")
-    * @ORM\JoinTable(name="Tag",
-    *      joinColumns={@ORM\JoinColumn(name="tag_name", referencedColumnName="id")},
-    *      inverseJoinColumns={@ORM\JoinColumn(name="locale_id", referencedColumnName="id")}
-    *      )
-    */
+    /**
+     * @var \Doctrine\Common\Collections\Collection|Tag[]
+     *
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="feeds",cascade={"persist"})
+     * @ORM\JoinTable(
+     *  name="feed_tag",
+     *  joinColumns={
+     *      @ORM\JoinColumn(name="feed_id", referencedColumnName="id")
+     *  },
+     *  inverseJoinColumns={
+     *      @ORM\JoinColumn(name="tag_id", referencedColumnName="id")
+     *  }
+     * )
+     */
 	protected $tags;
+    /**
+    *  @ORM\OneToOne(targetEntity="APiszczek\DemoBundle\Entity\Image", cascade={"persist"})
+    */
 	protected $image;
 	
+    private $tagsId;
 	function __construct(){
 		$this->createdAt = new \DateTime();
+        $this->tags = new ArrayCollection();
 	}
+    public function preFlush(PreFlushEventArgs $args)
+    {
+        // ...
+        exit('test');
+    }
+    /**
+     * @ORM\PrePersist
+     */
+    function preInsert( LifecycleEventArgs $args )
+    {
+        
+        $em = $args->getEntityManager();
+        $sqlTags = $em->getRepository('APiszczekDemoBundle:Tag')->findAll();
+        // there we getting all article tags
+        foreach($this->getTags() as $feedTag) {
+            foreach ($sqlTags as $sqlTag)
+                if ($feedTag->getName() === $sqlTag->getName()){
+                    $this->tagsId[] = $sqlTag->getId();
+                    // Entity manager will work correctly when see connected rows in feed_tag table
+                    $this->removeTag($feedTag);
+                }
+        }
+    }
+  
+    function preUpdate( $args, $originalTags )
+    {
+        
+        //LifecycleEventArgs
+        $em = $args->getEntityManager();
+        $sqlTags = $em->getRepository('APiszczekDemoBundle:Tag')->findAll();
+       // $sqlTagsFeed = $em->getRepository('APiszczekDemoBundle:Tag')->findAll();
+        // there we getting all article tags
+        foreach($this->getTags() as $feedTag) {
+            if ($originalTags->contains($feedTag)){
 
+                continue;
+            }
+            foreach ($sqlTags as $sqlTag)
+                if ($feedTag->getName() === $sqlTag->getName()){
+                    $this->tagsId[] = $sqlTag->getId();
+                    // Entity manager will work correctly when see connected rows in feed_tag table
+                    $this->removeTag($feedTag);
+                }
+        }
+    }
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+     function postInsert(LifecycleEventArgs $args)
+        {
+        if (!$this->tagsId)
+            return;
+        $em = $args->getEntityManager();
+        $conn = $em->getConnection();
+        var_dump($this->tagsId);
+        //exit();
+        foreach ($this->tagsId as $tagId){
+            $conn->insert('feed_tag', array('feed_id' => $this->getId(),'tag_id' => $tagId));
+ 
+        }
+
+        $this->tagsId = array();
+     }
 
     /**
      * Get id
@@ -143,6 +217,7 @@ class Feed
      * @return Feed
      */
     public function setPosition(\APiszczek\DemoBundle\Entity\Position $position = null)
+
     {
         $this->position = $position;
 
@@ -162,24 +237,39 @@ class Feed
     /**
      * Add tags
      *
-     * @param \APiszczek\DemoBundle\Entity\Locale $tags
+     * @param \APiszczek\DemoBundle\Entity\Tag $tag
      * @return Feed
      */
-    public function addTag(\APiszczek\DemoBundle\Entity\Locale $tags)
+    public function addTag(\APiszczek\DemoBundle\Entity\Tag $tag)
     {
-        $this->tags[] = $tags;
-
+        //      $tags->addFeed($this);
+        if ($this->tags->contains($tag))
+            return;
+        //\Doctrine\Common\Util\Debug::dump(var_dump($this->tags));
+        
+        $this->tags->add($tag);
+        $tag->addFeed($this);
         return $this;
     }
 
     /**
      * Remove tags
      *
-     * @param \APiszczek\DemoBundle\Entity\Locale $tags
+     * @param \APiszczek\DemoBundle\Entity\Locale $tag
      */
-    public function removeTag(\APiszczek\DemoBundle\Entity\Locale $tags)
+    public function removeTag(\APiszczek\DemoBundle\Entity\Tag $tag)
     {
-        $this->tags->removeElement($tags);
+        //$this->tags->setTask(null);
+        //$tags->addFeed($this);
+        
+        if (!$this->tags->contains($tag)) {
+            return;
+        }
+
+        $this->tags->removeElement($tag);
+        $tag->removeFeed($this);
+        
+        //exit("kutas");
     }
 
     /**
@@ -190,5 +280,28 @@ class Feed
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \APiszczek\DemoBundle\Entity\Image $image
+     * @return Feed
+     */
+    public function setImage(\APiszczek\DemoBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \APiszczek\DemoBundle\Entity\Image 
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }

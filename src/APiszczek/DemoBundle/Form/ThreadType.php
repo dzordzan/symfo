@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ThreadType extends AbstractType
+class FeedType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -17,7 +17,8 @@ class ThreadType extends AbstractType
         $builder
             ->add('title')
             ->add('content')
-            ->add('slug')
+            ->add('position')
+            ->add('image')
             ->add('createAt')
         ;
     }
@@ -28,7 +29,7 @@ class ThreadType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'APiszczek\DemoBundle\Entity\Thread'
+            'data_class' => 'APiszczek\DemoBundle\Entity\Feed'
         ));
     }
 
@@ -37,6 +38,6 @@ class ThreadType extends AbstractType
      */
     public function getName()
     {
-        return 'apiszczek_demobundle_thread';
+        return 'apiszczek_demobundle_feed';
     }
 }
