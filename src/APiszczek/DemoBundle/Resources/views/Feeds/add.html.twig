@@ -1,0 +1,134 @@
+{% extends "APiszczekDemoBundle:Layout:layout.html.twig" %}
+{% block title %}Dodaj nowy post{% endblock %}
+{% block pageHeader %}
+    Nowy post
+    <small></small>
+{% endblock %}
+ 	{% block stylesheets %} 
+    	{{ parent() }}
+    	<link href="{{ SRC }}/css/fileinput.css" rel="stylesheet">
+    	<link href="{{ SRC }}/css/bootstrap-tagsinput.css" rel="stylesheet">
+    	
+	{% endblock %}
+	{% block javascripts %} 
+	  {{ parent() }}
+	 <script src="{{ SRC }}/js/fileinput.min.js"></script>
+	 <script src="{{ SRC }}/js/bootstrap-tagsinput.js"></script>
+	 <script type="text/javascript">
+	 	var $collectionHolder;
+		jQuery(document).ready(function() {
+				$collectionHolder = $('#tags');
+			    
+				$("#tags").val("{% for tag in form.tags %}{{ tag.name.vars.value}},{% endfor %}");
+				$("#tags").tagsinput();
+				$("#tags").on('itemAdded', function(event) {
+					// Get the data-prototype explained earlier
+				    var prototype = $collectionHolder.data('prototype');
+				    var index = $collectionHolder.data('index');
+				    var newForm = prototype.replace(/__name__/g, index);
+				    $collectionHolder.data('index', index + 1);
+
+				    newForm = $('input:eq(0)', newForm).val( event.item).hide();
+				    $('#dTags').append(newForm);
+					});
+				$("#tags").on('itemRemoved', function(event) {
+					  $('#dTags input[value="'+event.item+'"]').remove();
+					});
+				$collectionHolder.data('index', $("#tags").tagsinput('items').length);
+				$('textarea').load('{{ SRC }}/lorem/lorem.txt');
+		    });
+
+	      $("input[type=file]").fileinput({
+		        showUpload: false,
+		        showCaption: false,
+		        maxFileCount: 1,
+		        browseClass: "btn btn-primary",
+		        allowedFileTypes: ["image"],
+		        fileType: "image"
+	      });
+			/*$("#form_imageUpload").on('fileloaded', function(event) {
+			 	$('#form_urlAddress').attr('disabled','disabled');
+			});
+			$("#form_imageUpload").on('fileclear', function(event) {
+				$('#form_urlAddress').removeAttr('disabled');
+			});*/
+			
+			$( document ).ready(function() {
+				if(navigator.geolocation)
+				       navigator.geolocation.getCurrentPosition(handleGetCurrentPosition);
+			}); 
+			function handleGetCurrentPosition(location){
+				$('input[name*=latitude]').val(location.coords.latitude);
+				$('input[name*=longitude]').val(location.coords.longitude);
+	    	}
+
+ </script>
+{% endblock %}
+{% block content -%}
+ {{ form_start(form) }}
+ <div class="container auth">
+
+      <div id="big-form" class="well auth-box">
+        <form action="#" method="post"  {{ form_enctype(form) }}>
+          <fieldset>
+		   	<div class="row col-md-10"> 
+		   	<div class="form-group col-md-6">
+		  	 		{{ form_label(form.title, "Tytuł artykulu", {'label_attr': {'class': 'control-label'}}) }}
+		            {{ form_widget(form.title, {'attr': {'class': 'form-control input-md', 'value':'test'}}) }}
+		     </div>
+		     <div class="form-group col-md-12">
+		  	 		{{ form_label(form.content, "Treść artykulu", {'label_attr': {'class': 'control-label'}}) }}
+		  			{{ form_widget(form.content, {'attr': {'class': 'form-control', 'rows':'10'}}) }}
+
+		      </div> 
+
+		  	 {# <div class="form-group col-md-10">
+		  	 		{{ form_label(form.image.url, "Podaj adres url do zdjęcia artykułu, lub wstaw własne zdjęcie", {'label_attr': {'class': 'control-label'}}) }}
+		              {{ form_widget(form.image.url, {'attr': {'class': 'form-control input-md'}}) }}
+		              
+		     </div> #}
+		       
+		      <div id="dTags" class="form-group col-md-6" >
+			      {{ form_label(form.tags, 'Podaj tagi', {'label_attr': {'class': 'control-label'}}) }}
+			      
+			       <input name="{{ form.tags.vars.full_name }}" id="tags" class="form-control input-md" value="" data-prototype="{{ form_widget(form.tags.vars.prototype)|e }}"></input>
+			      {% for tag in form.tags %}
+			     	 {{ form_widget(tag.name, {'type':'hidden'}) }}
+			    
+			      {% endfor %}
+			
+		       </div>
+		   	  <div class="form-group col-md-12">	
+			      
+			      	{{ form_label(form.image.file, "Wstaw zdjęcie avatara", {'label_attr': {'class': 'control-label'}}) }}<br/>
+			        {{ form_widget(form.image.file, {'attr': {'class': 'form-control'}}) }}
+			        {#<div class="form-group">
+			        	<input type="file" id="imageUpload"/>
+			        </div>#}
+			       
+			   </div>
+		  	  {% do form.image.setRendered %}
+		      {{ form_widget(form.position.latitude, {'type':'hidden'}) }}
+		      {{ form_widget(form.position.longitude, {'type':'hidden'}) }}
+		      <div class="form-group form-group col-md-12">
+	              <label class=" control-label" for="button1id">Potwierdz</label>
+	              <div class="">
+	              	{{ form_widget(form.submit, {'label':'Prześlij artykuł', 'attr': {'class': 'btn btn-success'}}) }}
+	              </div>
+		      </div>
+		    {#
+		      </div>
+		      <div id="preview" class="form-group col-md-5">
+		        <div class="form-group">
+		           {{ form_label(form.imageUpload, null, {'label_attr': {'class': 'control-label'}}) }}<br/>
+		           {{ form_widget(form.imageUpload) }}
+		         </div>
+		    	</div>
+		    	
+    #}
+</fieldset>
+</form>
+</div>
+
+{{ form_end(form) }}
+{% endblock %}

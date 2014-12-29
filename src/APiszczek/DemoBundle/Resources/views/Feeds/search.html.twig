@@ -1,0 +1,53 @@
+
+<div class="col-md-4">
+
+                <!-- Blog Search Well -->
+                <div class="well">
+                    <h4>Szukaj na blogu</h4>
+                    {{ form_start(searchForm) }}
+                    <div class="input-group">
+                  
+
+                        <input type="text" required name="{{ searchForm.searchText.vars.full_name }}" class="form-control">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default">
+                                <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                        </span>
+                    </div>
+                    {% do searchForm.searchText.setRendered %}
+
+                    {{ form_end(searchForm) }}
+                    <!-- /.input-group -->
+                </div>
+
+                <!-- Blog Categories Well -->
+                <div class="well">
+                    <h4>Szukaj po tagach</h4>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                                
+                                
+                                {% for tag in tags|slice(0,tags|length/2|round(0, 'ceil')) %}
+                                    <li><a href="{{ path('searchByTag', { 'tag': tag.name }) }}">{{ tag.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                                {% for tag in tags[tags|length/2|round(0, 'ceil'):] %}
+                                    <li><a href="{{ path('searchByTag', { 'tag': tag.name }) }}">{{ tag.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+                <!-- Side Widget Well -->
+                <div class="well">
+                    <h4>Side Widget Well</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
+                </div>
+            </div>

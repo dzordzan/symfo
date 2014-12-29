@@ -1,0 +1,51 @@
+{% extends "APiszczekDemoBundle:Layout:layout.html.twig" %}
+{% block title %}Posty{% endblock %}
+{% block pageHeader %}
+    Lista Postów
+    <small></small>
+{% endblock %}
+
+{% block content -%}
+        <div id="posts" class="col-md-8">
+        {% for entity in entities %}
+
+        <div class="container">
+            {#<div class="col-md-1">
+                <a href="{{ path('show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="font-size:55px; top:15px;"></span></a>
+            </div>#}
+            <div class="col-md-7">
+                <h1><a href="{{ path('show', { 'id': entity.id }) }}">{{ entity.title }}</a></h1>
+                
+                <div style="margin-top:-8px;margin-bottom:20px"><p>by <a href="#">Admin</a><br/>
+                    {% for tag in entity.tags %}
+
+                    <span style="margin-top:-15px" class="label label-success">#{{ tag.name }}</span>
+                {% endfor %}
+                </p></div>
+                
+                <p>{{ entity.content|length > 700 ? entity.content|slice(0, 650) ~ "..." : entity.content  }}
+
+                    <a href="{{ path('show', { 'id': entity.id }) }}">Czytaj całość</a></p>
+                <div>
+            <span class="glyphicon glyphicon-time"></span> Posted {% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}<div class="pull-right">
+            {% if entity.position.location|default  %}<div><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> {{ entity.position.location }}</div>{% endif %}
+            {# <span class="label label-default">alice</span> <span class="label label-primary">story</span> <span class="label label-success">blog</span> <span class="label label-info">personal</span> <span class="label label-warning">Warning</span>
+            <span class="label label-danger">Danger</span> #}  </div>      
+                 </div>
+                  
+                <hr>
+               
+                </div>
+                 <div class="col-md-1">
+                 <p>
+                    <p><a href="{{ path('edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-cog"></span></a></p>
+                    <p><a href="{{ path('delete', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-remove"></span></a></p> 
+                 </div>
+
+            </div>
+
+        {% endfor %}
+    </div>
+ <!-- Blog Sidebar Widgets Column -->
+            {% include 'APiszczekDemoBundle:Feeds:search.html.twig' %}
+    {% endblock %}
