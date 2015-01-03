@@ -53,20 +53,12 @@ class FeedsController extends Controller
     public function searchByTagAction($tag)
     {
         $em = $this->getDoctrine()->getManager();
-        $tags = $em->getRepository('APiszczekDemoBundle:Tag')->findAll();
-        foreach ($tags as $emptyTag)
-        {
-            if (count($emptyTag->getFeeds())===0){
-                $em->remove($emptyTag);
-                $em->flush();
-            }
-        }
 
         $tag = $em->getRepository('APiszczekDemoBundle:Tag')->findOneByName($tag);
         $entities = $tag->getFeeds();
-        //exit(var_dump($tags));
         return $this->render('APiszczekDemoBundle:Feeds:index.html.twig', array(
             'entities' => $entities,
+            'searchForm'   => $this->searchCreateForm()->createView(),
             'tags' => $this->getTags($em),
             
         ));
@@ -205,6 +197,7 @@ class FeedsController extends Controller
         return $this->render('APiszczekDemoBundle:Feeds:show.html.twig', array(
             'entity'      => $entity,
             'tags'        => $em->getRepository('APiszczekDemoBundle:Tag')->findAll(),
+            'searchForm'   => $this->searchCreateForm()->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -277,12 +270,25 @@ class FeedsController extends Controller
         $editForm->handleRequest($request);
         
         if ($editForm->isValid()) {
-            //exit(\Doctrine\Common\Util\Debug::dump($feed->getTags()));
            foreach ($originalTags as $tag) {
-
+                //echo "oryginalny tag: ". $tag->getName().";";
                 if (false === $feed->getTags()->contains($tag)) {
-                    // remove the Task from the Tag
-                    $tag->getFeeds()->removeElement($feed);
+                /*$rem = true;
+                foreach ($feed->getTags() as $newTag){
+                    if ($newTag->getName() === $tag->getName()){
+                        //exit("kurwa mac:".$newTag->getId());
+                        // gdy był tag w oryginalne, ale ktoś w formularzu pomieszał usunął i dodał ten sam
+                        if (!$newTag->getId()){
+                            $newTag = $tag;
+                            //exit("chuj");
+                        }
+                        $rem = false;
+                    }
+                }
+                if ($rem){*/
+                    //echo "usuwam tag: ".$tag->getName().";".$tag->getId().";<br/>";
+
+                    $tag->removeFeed($feed);
                     // if it was a many-to-one relationship, remove the relationship like this
                     // $tag->setTask(null);
 
@@ -292,7 +298,8 @@ class FeedsController extends Controller
                     // $em->remove($tag);
                 }
             }
-            $feed->preUpdate($this->getDoctrine(), $originalTags);
+            //exit(\Doctrine\Common\Util\Debug::dump($feed->getTags()));
+            $feed->preUpdate($this->getDoctrine());
             $feed->getImage()->upload();
             $em->persist($feed);
             $em->flush();
@@ -314,7 +321,8 @@ class FeedsController extends Controller
     {
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
-        
+
+
         //if ($form->isValid() || ) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('APiszczekDemoBundle:Feed')->find($id);
@@ -326,7 +334,15 @@ class FeedsController extends Controller
             $em->remove($entity);
             $em->flush();
         //}
-
+            //usuwanie pustych tagów
+        $tags = $em->getRepository('APiszczekDemoBundle:Tag')->findAll();
+            foreach ($tags as $emptyTag)
+            {
+                if (count($emptyTag->getFeeds())===0){
+                    $em->remove($emptyTag);
+                    $em->flush();
+                }
+            }
         return $this->redirect($this->generateUrl('feeds'));
     }
 

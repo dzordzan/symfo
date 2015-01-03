@@ -15,7 +15,9 @@
 	 <script src="{{ SRC }}/js/fileinput.min.js"></script>
 	 <script src="{{ SRC }}/js/bootstrap-tagsinput.js"></script>
 	 <script type="text/javascript">
+	 	var toDelete = [];
 	 	var $collectionHolder;
+
 		jQuery(document).ready(function() {
 				$collectionHolder = $('#tags');
 			    
@@ -29,18 +31,19 @@
 				    var newForm = prototype.replace(/__name__/g, index);
 				    $collectionHolder.data('index', index + 1);
 
-				    newForm = $('input:eq(0)', newForm).val( event.item).hide();
+				    newForm = $('input:eq(0)', newForm).attr('value', event.item).hide();
 
 				    $('#dTags').append(newForm);
 					});
 
 				$("#tags").on('itemRemoved', function(event) {
-					  $('#dTags input[value="'+event.item+'"]').remove();
-					  //alert(event.item);
-					  //console.log(event);
+					//There is a problem in feed.php to not duplicate entities
+					//Problem is when we remove, and add the same tag in edited feed
+					// but this simple solution solve this problem, but its not the best way.
+					  toDelete.push(event.item);
 					});
 				$collectionHolder.data('index', $("#tags").tagsinput('items').length);
-				//$('textarea').load('{{ SRC }}/lorem/lorem.txt');
+
 		    });
 
 		  $("input[type=file]").removeAttr('required');
@@ -63,6 +66,11 @@
 				$('input[name*=latitude]').val(location.coords.latitude);
 				$('input[name*=longitude]').val(location.coords.longitude);
 	    	}
+	    $('form').submit(function(){
+	    	for (i=0; i<toDelete.length; i++)
+	 				$('#dTags input[value="'+toDelete[i]+'"]').last().remove();
+
+	    })
 
  </script>
 {% endblock %}

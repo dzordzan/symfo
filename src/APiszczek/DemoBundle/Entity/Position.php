@@ -86,7 +86,6 @@ class Position
      */
     public function setLongitude($longitude)
     {
-        exit('test2');
         $this->longitude = $longitude;
 
         return $this;

@@ -53,14 +53,14 @@ class Image
     {
         return null === $this->url
             ? null
-            : $this->getUploadRootDir().'/'.$this->path;
+            : $this->getUploadRootDir().'/'.$this->url;
     }
 
     public function getWebPath()
     {
         return null === $this->url
             ? null
-            : $this->getUploadDir().'/'.$this->path;
+            : $this->getUploadDir().'/'.$this->url;
     }
 
     protected function getUploadRootDir()

@@ -44,7 +44,7 @@ class Feed
     /**
      * @var \Doctrine\Common\Collections\Collection|Tag[]
      *
-     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="feeds",cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="APiszczek\DemoBundle\Entity\Tag", inversedBy="feeds", cascade={"persist"})
      * @ORM\JoinTable(
      *  name="feed_tag",
      *  joinColumns={
@@ -77,7 +77,7 @@ class Feed
     function preInsert( LifecycleEventArgs $args )
     {
         
-        $em = $args->getEntityManager();
+     $em = $args->getEntityManager();
         $sqlTags = $em->getRepository('APiszczekDemoBundle:Tag')->findAll();
         // there we getting all article tags
         foreach($this->getTags() as $feedTag) {
@@ -90,25 +90,25 @@ class Feed
         }
     }
   
-    function preUpdate( $args, $originalTags )
+    function preUpdate( $args )
     {
-        
-        //LifecycleEventArgs
         $em = $args->getEntityManager();
         $sqlTags = $em->getRepository('APiszczekDemoBundle:Tag')->findAll();
-       // $sqlTagsFeed = $em->getRepository('APiszczekDemoBundle:Tag')->findAll();
         // there we getting all article tags
+       
         foreach($this->getTags() as $feedTag) {
-            if ($originalTags->contains($feedTag)){
-
-                continue;
-            }
             foreach ($sqlTags as $sqlTag)
                 if ($feedTag->getName() === $sqlTag->getName()){
+
+                    if ($sqlTag->getFeeds()->contains($this))
+                        continue;
+
                     $this->tagsId[] = $sqlTag->getId();
                     // Entity manager will work correctly when see connected rows in feed_tag table
+                    //\Doctrine\Common\Util\Debug::dump("<br/>usuwam dodawanie do tabeli TAGS dla tagu dla:".$feedTag->getName().' id: '.$feedTag->getId().';');
                     $this->removeTag($feedTag);
                 }
+                
         }
     }
     /**
@@ -121,8 +121,10 @@ class Feed
             return;
         $em = $args->getEntityManager();
         $conn = $em->getConnection();
-        var_dump($this->tagsId);
-        //exit();
+
+        //echo "<br/>";
+        //var_dump($this->tagsId);
+
         foreach ($this->tagsId as $tagId){
             $conn->insert('feed_tag', array('feed_id' => $this->getId(),'tag_id' => $tagId));
  

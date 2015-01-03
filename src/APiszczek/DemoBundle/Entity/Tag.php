@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
   * @ORM\Entity
   * @ORM\Table()
-  * @ORM\HasLifecycleCallbacks
   */
 class Tag
 {
@@ -27,7 +26,7 @@ class Tag
     /**
      * @var \Doctrine\Common\Collections\Collection|Feed[]
      *
-     * @ORM\ManyToMany(targetEntity="Feed", mappedBy="tags")
+     * @ORM\ManyToMany(targetEntity="APiszczek\DemoBundle\Entity\Feed", mappedBy="tags")
      */
     protected $feeds;
 	function __construct(){
@@ -76,15 +75,6 @@ class Tag
      * @return Tag
      */
 
-     /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
-    function preInsert()
-    {
-        //exit('test');
-
-    }
     /**
      * @param \APiszczek\DemoBundle\Entity\Feed $feed
      */
