@@ -1,20 +1,11 @@
 # This file is auto-generated during the composer install
-#127.8.127.2 : 3306(name: symfo; user: admin3aiUlHW; pass: 6qpe_jlksB6j)
-#127.0.0.1
-#uek 10.254.94.2 (port:null, name,user: s174644, pass: EZL9hvmt)
-
 parameters:
     database_driver: pdo_mysql
-    # database_host: 10.254.94.2
-    # database_port: null
-    # database_name: s174644 
-    # database_user: s174644 
-    # database_password: EZL9hvmt
-    database_host: 127.0.0.1
-    database_port: 3306
-    database_name: symfo 
-    database_user: dzordz 
-    database_password: root
+    database_host: 10.254.94.2
+    database_port: null
+    database_name: s174644
+    database_user: s174644
+    database_password: EZL9hvmt
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null
@@ -24,4 +15,3 @@ parameters:
     debug_toolbar: true
     debug_redirects: false
     use_assetic_controller: true
-
